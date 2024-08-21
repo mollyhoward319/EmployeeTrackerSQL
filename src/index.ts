@@ -5,7 +5,12 @@ const cTable = require("console.table");
 async function getEmployees() {
   try {
     const db = DB.getInstance();
-    const response = await db.query(`SELECT * FROM employee;`);
+    const response =
+      await db.query(`SELECT employee.first_name, employee.last_name, role.title, department.name, role.salary, 
+      CONCAT (manager.first_name, manager.last_name) 
+      AS manager FROM employee LEFT JOIN role ON employee.role_id =role.id 
+      LEFT JOIN department ON role.department_id=department.id 
+      LEFT JOIN employee manager ON manager.id =employee.manager_id;`);
     console.table(response.rows);
   } catch (error) {
     console.error(error);
@@ -15,7 +20,9 @@ async function getEmployees() {
 async function getRoles() {
   try {
     const db = DB.getInstance();
-    const response = await db.query(`SELECT * FROM role;`);
+    const response =
+      await db.query(`SELECT role.title, role.salary, department.name AS departmentname FROM role
+      LEFT JOIN department ON role.department_id=department.id`);
     console.table(response.rows);
   } catch (error) {
     console.error(error);
@@ -30,7 +37,35 @@ async function getDepartments() {
     console.error(error);
   }
 }
-async function updateRoles(employeeid:string, roleid:string) {
+async function addDepartment(departmentName: string) {
+  try {
+    const db = DB.getInstance();
+    const response = await db.query(`INSERT INTO department(name) VALUES ($1);`,[departmentName]);
+    console.table(response.rows);
+  } catch (error) {
+    console.error(error);
+  }
+}
+async function addEmployee() {
+  try {
+    const db = DB.getInstance();
+    const response = await db.query(`INSERT INTO (name) VALUES ($1);`,[]);
+    console.table(response.rows);
+  } catch (error) {
+    console.error(error);
+  }
+}
+async function addRole(title:string, salary:number, departmentId:number) {
+  try {
+    const db = DB.getInstance();
+    const response = await db.query(`INSERT INTO role(title, salary, department_id) VALUES ($1, $2, $3);`,[title, salary, departmentId]);
+    console.table(response.rows);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function updateRoles(employeeid: string, roleid: string) {
   try {
     const db = DB.getInstance();
     const response = await db.query(
@@ -53,6 +88,9 @@ async function prompt() {
         "View All Employees",
         "View All Roles",
         "View All Departments",
+        "Add An Employee",
+        "Add A Department",
+        "Add A Role",
         new inquirer.Separator(),
         "Update Employee Role",
         new inquirer.Separator(),
@@ -69,6 +107,42 @@ async function prompt() {
   }
   if (response.mainoptions === "View All Departments") {
     await getDepartments();
+  }
+  if (response.mainoptions === "Add A Department") {
+    const departmentInput = await inquirer.prompt([
+      {name: "departmentName", message: "What is the Name of the Department?"}
+    ])
+    await addDepartment(departmentInput.departmentName);
+  }
+  if (response.mainoptions === "Add An Employee") {
+    const db = DB.getInstance();
+    const departments= await db.query("SELECT * FROM employee")
+    const departmentChoices=departments.rows.map((dept:any)=>{
+      return {
+        name: dept.name
+        value: dept.id
+      }
+    })
+    await addEmployee();
+  }
+  if (response.mainoptions === "Add A Role") {
+    const db = DB.getInstance();
+    const departments= await db.query("SELECT * FROM department")
+    const departmentChoices= departments.rows.map((dept: any)=>{
+      return {
+        name: dept.name, 
+        value: dept.id
+      }
+    })
+    // console.log(departments);
+    // console.log (departmentChoices);
+    
+    const roleInput = await inquirer.prompt ([
+      { name: "roletitle", message: "What Title Do You Want to Add?"},
+      { name: "salary", message: "What Should Salary Be?"},
+      { type: "list", name: "departmentId", message: "What Is the Department", choices: departmentChoices}
+    ])
+    await addRole(roleInput.roletitle, roleInput.salary, roleInput.departmentId);
   }
   if (response.mainoptions === "Update Employee Role") {
     await getEmployees();

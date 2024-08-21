@@ -29,11 +29,11 @@ INSERT INTO employee (first_name, last_name, role_id, manager_id)
   VALUES ('John', 'Doe', 1, NULL),
           ('Jane', 'Schmoe', 2, 1),
           ('Sally', 'Pro', 3, 1),
-          ('Jill', 'Crow', 4, 1),
-          ('Jack', 'Roe', 5, 1),
-          ('Jenny', 'Poe', 6, 1),
-          ('Sarah', 'Grow', 7, 1),
-          ('Jess', 'Noe', 8, 1),
+          ('Jill', 'Crow', 4, 2),
+          ('Jack', 'Roe', 5, 2),
+          ('Jenny', 'Poe', 6, 3),
+          ('Sarah', 'Grow', 7, 3),
+          ('Jess', 'Noe', 8, 4),
           ('Bob', 'Low', 9, 1);
         
 
