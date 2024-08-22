@@ -21,7 +21,7 @@ async function getRoles() {
   try {
     const db = DB.getInstance();
     const response =
-      await db.query(`SELECT role.title, role.salary, department.name AS departmentname FROM role
+      await db.query(`SELECT role.title, role.salary, department.name AS department.name FROM role
       LEFT JOIN department ON role.department_id=department.id`);
     console.table(response.rows);
   } catch (error) {

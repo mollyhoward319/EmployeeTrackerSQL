@@ -19,7 +19,7 @@ Type "npm run start" in terminal.
 
 ## Usage
 
-<Video Demo Link: []>
+<Video Demo Link: [https://drive.google.com/file/d/1LQ05x_Dz62fyjxl0eVr1muu1Mp8ZqEPs/view?usp=drive_link]>
 
 ## Credits
 
