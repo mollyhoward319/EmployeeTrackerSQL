@@ -91,7 +91,6 @@ async function prompt() {
         "Add An Employee",
         "Add A Department",
         "Add A Role",
-        new inquirer.Separator(),
         "Update Employee Role",
         new inquirer.Separator(),
         "Exit",
@@ -116,11 +115,11 @@ async function prompt() {
   }
   if (response.mainoptions === "Add An Employee") {
     const db = DB.getInstance();
-    const departments= await db.query("SELECT * FROM employee")
-    const departmentChoices=departments.rows.map((dept:any)=>{
+    const employees= await db.query("SELECT * FROM employee")
+    const employeeChoices= employees.rows.map((emp:any)=>{
       return {
-        name: dept.name
-        value: dept.id
+        name: emp.name,
+        value: emp.id
       }
     })
     await addEmployee();
@@ -128,7 +127,7 @@ async function prompt() {
   if (response.mainoptions === "Add A Role") {
     const db = DB.getInstance();
     const departments= await db.query("SELECT * FROM department")
-    const departmentChoices= departments.rows.map((dept: any)=>{
+    const departmentChoices= departments.rows.map((dept:any)=>{
       return {
         name: dept.name, 
         value: dept.id
