@@ -37,7 +37,7 @@ CREATE TABLE employee (
 
 
 
-SELECT e., CONCAT(m.first_name, ' ', m.last_name) AS manager_name, r.title AS role_title 
-FROM employee e LEFT JOIN employee m ON e.manager_id = m.id JOIN role r ON e.role_id = r.id;SELECT e., 
-CONCAT(m.first_name, ' ', m.last_name) AS manager_name, r.title AS role_title 
-FROM employee e LEFT JOIN employee m ON e.manager_id = m.id JOIN role r ON e.role_id = r.id;
+-- SELECT e., CONCAT(m.first_name, ' ', m.last_name) AS manager_name, r.title AS role_title 
+-- FROM employee e LEFT JOIN employee m ON e.manager_id = m.id JOIN role r ON e.role_id = r.id;SELECT e., 
+-- CONCAT(m.first_name, ' ', m.last_name) AS manager_name, r.title AS role_title 
+-- FROM employee e LEFT JOIN employee m ON e.manager_id = m.id JOIN role r ON e.role_id = r.id;
